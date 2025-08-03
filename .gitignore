@@ -2,3 +2,5 @@ data/
 credit-default-venv/
 processed_data/
 models/
+.ipynb_checkpoints/
+.virtual_documents/
