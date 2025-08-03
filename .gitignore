@@ -1,8 +1,8 @@
-data/
 credit-default-risk-venv/
-processed_data/
 models/
 .ipynb_checkpoints/
 .virtual_documents/
 ride_duration_predictionn.ipynb
 cred_sqlite_mlflow.db
+mlruns/
+.DS_Store
