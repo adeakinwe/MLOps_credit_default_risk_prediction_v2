@@ -4,3 +4,4 @@ processed_data/
 models/
 .ipynb_checkpoints/
 .virtual_documents/
+ride_duration_predictionn.ipynb
