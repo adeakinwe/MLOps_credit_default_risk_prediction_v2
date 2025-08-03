@@ -1,2 +1,4 @@
 data/
 credit-default-venv/
+processed_data/
+models/
