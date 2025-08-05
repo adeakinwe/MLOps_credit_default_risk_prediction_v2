@@ -112,12 +112,20 @@ python -m ipykernel install --user --name=credit-default-risk-venv --display-nam
 ./credit-default-risk-venv/bin/pip list
 
 # Backend DB
+- local sqlite db
 python -m mlflow ui --backend-store-uri sqlite:///cred_sqlite_mlflow.db --host 127.0.0.1 --port 6001
 
-#aws mlflow server --backend-store-uri sqlite:///mlflow3.db --default-artifact-root s3://mlflow-ride-duration21-prediction-artifact-store --host 127.0.0.1 --port 5003
+- aws s3
+mlflow server --backend-store-uri sqlite:///mlflow3.db --default-artifact-root s3://mlflow-ride-duration21-prediction-artifact-store --host 127.0.0.1 --port 5003
 
 # pipeline arguments
+- run pipeline with arguments
 python credit_default_risk_pred_pipeline.py  --x_test_path ../processed_data/X_test.parquet --y_test_path ../processed_data/y_test.txt --run_id 2c2f5792316545ed84ddf88b09b072a9  --model_bundle_artifact_path xgb_credit_pred.bin
+
+- run prefect orchestration locally
+python credit_default_risk_pred_pipeline_orch.py
+
+- prefect server start
 
 # docker
 docker-compose up --build
