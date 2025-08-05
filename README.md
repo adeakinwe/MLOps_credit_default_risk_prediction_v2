@@ -116,7 +116,7 @@ python -m ipykernel install --user --name=credit-default-risk-venv --display-nam
 python -m mlflow ui --backend-store-uri sqlite:///cred_sqlite_mlflow.db --host 127.0.0.1 --port 6001
 
 - aws s3
-mlflow server --backend-store-uri sqlite:///mlflow3.db --default-artifact-root s3://mlflow-ride-duration21-prediction-artifact-store --host 127.0.0.1 --port 5003
+mlflow server --backend-store-uri sqlite:///cred_s3bucket_mlflow.db --default-artifact-root s3://mlflow-credit-default-risk-prediction-artifact-store --host 127.0.0.1 --port 6002
 
 # pipeline arguments
 - run pipeline with arguments
