@@ -132,13 +132,28 @@ python -m mlflow ui --backend-store-uri sqlite:///cred_risk_sqlite_mlflow.db --h
 mlflow server --backend-store-uri sqlite:///cred_risk_sqlite_aws_mlflow.db  --default-artifact-root s3://mlflow-credit-default-risk-prediction-artifact-store-v2 --host 127.0.0.1 --port 8004
 
 # pipeline arguments
-- run pipeline with arguments
-python credit_default_risk_pred_pipeline.py  --x_test_path ../processed_data/X_test.parquet --y_test_path ../processed_data/y_test.txt --run_id 2c2f5792316545ed84ddf88b09b072a9  --model_bundle_artifact_path xgb_credit_pred.bin
+#run pipeline with arguments
+source ../credit-default-risk-pred-venv/bin/activate
 
-- run prefect orchestration locally
-python credit_default_risk_pred_pipeline_orch.py
+python 03-pipeline-orchestration/credit_default_risk_pred_pipeline.py  --x_test_path ../processed_data/X_test.parquet --y_test_path ../processed_data/y_test.txt --run_id fe69b7b9817240789feb57c59ff31cc5  --model_bundle_artifact_path xgb_credit_pred.bin
+
+#run prefect orchestration locally
+source ../credit-default-risk-pred-venv/bin/activate
+
+python 03-pipeline-orchestration/credit_default_risk_pred_pipeline_orch.py
 
 - prefect server start
 
-# docker
+# gunicorn
+python -m pip install -r 04-model-deployment/requirements.txt
+
+gunicorn --bind=0.0.0.0:9696 predict:app
+
+# Docker
+#model deployment
+docker build -t credit-default-risk-prediction-service:v1 .
+
+docker run -p --rm 9696:9696 credit-default-risk-prediction-service:v1
+
+#monitoring
 docker-compose up --build

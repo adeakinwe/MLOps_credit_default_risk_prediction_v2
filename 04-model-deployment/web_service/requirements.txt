@@ -1,0 +1,14 @@
+flask
+gunicorn
+xgboost
+pandas
+numpy
+scikit-learn
+mlflow
+boto3
+prefect
+requests
+cloudpickle
+joblib
+hyperopt
+fastparquet
