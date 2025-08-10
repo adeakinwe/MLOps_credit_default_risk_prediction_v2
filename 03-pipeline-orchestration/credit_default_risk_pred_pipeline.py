@@ -45,7 +45,7 @@ def evaluate_model(x_test_path, y_test_path, run_id, model_bundle_artifact_path)
 
     # Log metrics back to MLflow
     print("Logging test metrics to MLflow...")
-    client.log_metric(run_id, "test_auc", auc)
+    client.log_metric(run_id, "test_auc_pipeline", auc)
 
     print("Evaluation complete.")
 
