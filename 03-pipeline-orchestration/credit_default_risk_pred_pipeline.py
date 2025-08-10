@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 import mlflow
 import xgboost as xgb
-from sklearn.metrics import accuracy_score, roc_auc_score
+from sklearn.metrics import roc_auc_score
 from mlflow.tracking import MlflowClient
 
 def evaluate_model(x_test_path, y_test_path, run_id, model_bundle_artifact_path):
@@ -14,7 +14,7 @@ def evaluate_model(x_test_path, y_test_path, run_id, model_bundle_artifact_path)
     y_test = np.loadtxt(y_test_path)
 
     # Set tracking URI
-    mlflow.set_tracking_uri("sqlite:///../cred_risk_sqlite_mlflow.db")
+    mlflow.set_tracking_uri("sqlite:///../cred_risk_sqlite_aws_mlflow.db")
     client = MlflowClient()
 
     # Download and load model bundle
