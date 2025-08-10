@@ -5,5 +5,5 @@ models/
 cred_risk_sqlite_mlflow.db
 mlruns/
 .DS_Store
-cred_s3bucket_aws_mlflow.db
+cred_risk_sqlite_aws_mlflow.db
 .env
