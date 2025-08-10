@@ -14,7 +14,7 @@ def evaluate_model(x_test_path, y_test_path, run_id, model_bundle_artifact_path)
     y_test = np.loadtxt(y_test_path)
 
     # Set tracking URI
-    mlflow.set_tracking_uri("sqlite:///../02-experiment-tracking/cred_sqlite_mlflow.db")
+    mlflow.set_tracking_uri("sqlite:///../cred_risk_sqlite_mlflow.db")
     client = MlflowClient()
 
     # Download and load model bundle

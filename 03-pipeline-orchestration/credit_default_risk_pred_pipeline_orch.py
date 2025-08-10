@@ -11,7 +11,7 @@ from prefect import task, flow
 # ------------------ Path Setup ------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.normpath(os.path.join(BASE_DIR, "../processed_data"))
-MLFLOW_DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "../02-experiment-tracking/cred_sqlite_mlflow.db"))
+MLFLOW_DB_PATH = os.path.abspath(os.path.join(BASE_DIR, "../cred_risk_sqlite_mlflow.db"))
 
 DEFAULT_X_TEST = os.path.join(DATA_DIR, "X_test.parquet")
 DEFAULT_Y_TEST = os.path.join(DATA_DIR, "y_test.txt")

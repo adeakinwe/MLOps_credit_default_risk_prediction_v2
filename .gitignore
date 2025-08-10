@@ -1,8 +1,9 @@
-credit-default-risk-venv/
+credit-default-risk-pred-venv/
 models/
 .ipynb_checkpoints/
 .virtual_documents/
-ride_duration_predictionn.ipynb
-cred_sqlite_mlflow.db
+cred_risk_sqlite_mlflow.db
 mlruns/
 .DS_Store
+cred_s3bucket_mlflow.db
+.env

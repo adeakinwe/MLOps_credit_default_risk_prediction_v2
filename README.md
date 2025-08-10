@@ -82,7 +82,7 @@ The dataset contains anonymized demographic, financial, and employment-related i
 ---
 
 ## Project Goals
-1. Build a high-performing credit default prediction model
+1. Build a high-performing credit default risk prediction model
 2. Integrate with an **MLOps pipeline** for automation & reproducibility
 3. Ensure **continuous monitoring and improvement** post-deployment
 
@@ -96,24 +96,37 @@ The dataset contains anonymized demographic, financial, and employment-related i
 # PROJECT GUIDES
 
 # Navigate to your project directory
-cd ~/Projects/MLops_credit_risk_default/
+cd ~/Projects/MLops_credit_default_risk_prediction/
+
+# Make python3.8 the default for this project
+1. which python3.8
+
+2. echo "alias python='/usr/local/bin/python3.8'" > .env
+
+3. if [ -f .env ]; then
+    source .env
+   fi
+
+4. source ~/.zshrc
 
 # Create a new virtual environment using Python 3.8
-python3.8 -m credit-default-risk-venv
+python -m credit-default-risk-pred-venv
 
-source credit-default-risk-venv/bin/activate
+source credit-default-risk-pred-venv/bin/activate
 
 python -m pip install --upgrade pip
 
 python -m pip install ipykernel
 
-python -m ipykernel install --user --name=credit-default-risk-venv --display-name "credit default risk prediction (credit-default-risk-venv)"
+python -m ipykernel install --user --name=credit-default-risk-pred-venv --display-name "credit default risk prediction (credit-default-risk-pred-venv)"
 
-./credit-default-risk-venv/bin/pip list
+python -m pip install -r requirements.txt
+
+./credit-default-risk-pred-venv/bin/pip list
 
 # Backend DB
 - local sqlite db
-python -m mlflow ui --backend-store-uri sqlite:///cred_sqlite_mlflow.db --host 127.0.0.1 --port 6001
+python -m mlflow ui --backend-store-uri sqlite:///cred_risk_sqlite_mlflow.db --host 127.0.0.1 --port 9001
 
 - aws s3
 mlflow server --backend-store-uri sqlite:///cred_s3bucket_mlflow.db --default-artifact-root s3://mlflow-credit-default-risk-prediction-artifact-store --host 127.0.0.1 --port 6002
