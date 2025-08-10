@@ -129,7 +129,7 @@ w
 python -m mlflow ui --backend-store-uri sqlite:///cred_risk_sqlite_mlflow.db --host 127.0.0.1 --port 8001
 
 #aws s3
-mlflow server --backend-store-uri sqlite:///cred_s3bucket_mlflow.db --default-artifact-root s3://mlflow-credit-default-risk-prediction-artifact-store-v2 --host 127.0.0.1 --port 8002
+mlflow server --backend-store-uri sqlite:///cred_risk_sqlite_aws_mlflow.db  --default-artifact-root s3://mlflow-credit-default-risk-prediction-artifact-store-v2 --host 127.0.0.1 --port 8004
 
 # pipeline arguments
 - run pipeline with arguments
