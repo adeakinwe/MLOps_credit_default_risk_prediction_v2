@@ -157,4 +157,5 @@ docker build -t credit-default-risk-prediction-service:v1 .
 docker run -p --rm 9696:9696 credit-default-risk-prediction-service:v1
 
 # Monitoring
+python -m pip install -r 05-model-monitoring/requirements.txt
 docker-compose up --build
