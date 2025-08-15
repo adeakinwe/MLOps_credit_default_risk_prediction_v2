@@ -9,3 +9,7 @@ cred_risk_sqlite_aws_mlflow.db
 .env
 xgb_credit_pred.bin
 __pycache__
+debugging_credit_default_risk_data.ipynb
+metrics_calculation.py
+poc_metrics_calculation.py
+dashboards/
