@@ -160,6 +160,6 @@ python -m pip install -r requirements.txt
 docker-compose up --build
 docker-compose up 
 python credit_default_metrics_calculation.py
-[grafana] localhost:3000
-[adminer] localhost:8080
+-[grafana](localhost:3000)
+-[adminer](localhost:8080)
 docker-compose down
