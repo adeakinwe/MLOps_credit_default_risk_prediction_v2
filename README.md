@@ -72,7 +72,7 @@ The dataset contains anonymized demographic, financial, and employment-related i
 ---
 
 ## Best Practices Applied
-- **Version Control:** Git for code & DVC for data
+- **Version Control:** Git for code
 - **Reproducibility:** Fixed random seeds, environment files (`requirements.txt`)
 - **Automation:** CI/CD pipelines for testing & deployment
 - **Documentation:** Clear project structure and inline comments
