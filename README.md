@@ -154,11 +154,15 @@ docker build -t credit-default-risk-prediction-service:v1 .
 
 docker run -p --rm 9696:9696 credit-default-risk-prediction-service:v1
 
-## Monitoring
+# Monitoring
 cd 05-model-monitoring/
+
 python -m pip install -r requirements.txt
+
 docker-compose up --build
+
 docker-compose up 
+
 python credit_default_metrics_calculation.py
 
 - [grafana](localhost:3000)
