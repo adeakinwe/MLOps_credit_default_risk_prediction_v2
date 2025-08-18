@@ -165,7 +165,7 @@ docker-compose up
 
 python credit_default_metrics_calculation.py
 
-- [grafana](localhost:3000)
-- [adminer](localhost:8080)
+- [grafana](http://localhost:3000)
+- [adminer](http://localhost:8080)
 
 docker-compose down
