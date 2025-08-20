@@ -9,3 +9,4 @@ cred_risk_sqlite_aws_mlflow.db
 .env
 xgb_credit_pred.bin
 __pycache__
+tbdl.md

@@ -130,73 +130,13 @@ python test_event.py
 ### Putting everything to Docker
 
 ```bash
-docker build -t stream-model-duration:v1 .
+docker build -t credit_default_predictions_stream:v1 .
 
 docker run -it --rm \
     -p 8080:8080 \
-    -e PREDICTIONS_STREAM_NAME="ride_predictions" \
-    -e RUN_ID="e1efc53e9bd149078b0c12aeaa6365df" \
+    -e PREDICTIONS_STREAM_NAME="credit_default_predictions" \
+    -e RUN_ID="fe69b7b9817240789feb57c59ff31cc5" \
     -e TEST_RUN="True" \
     -e AWS_DEFAULT_REGION="eu-west-1" \
-    stream-model-duration:v1
-```
-
-URL for testing:
-
-* http://localhost:8080/2015-03-31/functions/function/invocations
-
-
-
-### Configuring AWS CLI to run in Docker
-
-To use AWS CLI, you may need to set the env variables:
-
-```bash
-docker run -it --rm \
-    -p 8080:8080 \
-    -e PREDICTIONS_STREAM_NAME="ride_predictions" \
-    -e RUN_ID="e1efc53e9bd149078b0c12aeaa6365df" \
-    -e TEST_RUN="True" \
-    -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
-    -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
-    -e AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" \
-    stream-model-duration:v1
-```
-
-Alternatively, you can mount the `.aws` folder with your credentials to the `.aws` folder in the container:
-
-```bash
-docker run -it --rm \
-    -p 8080:8080 \
-    -e PREDICTIONS_STREAM_NAME="ride_predictions" \
-    -e RUN_ID="e1efc53e9bd149078b0c12aeaa6365df" \
-    -e TEST_RUN="True" \
-    -v c:/Users/alexe/.aws:/root/.aws \
-    stream-model-duration:v1
-```
-
-### Publishing Docker images
-
-Creating an ECR repo
-
-```bash
-aws ecr create-repository --repository-name duration-model
-```
-
-Logging in
-
-```bash
-$(aws ecr get-login --no-include-email)
-```
-
-Pushing 
-
-```bash
-REMOTE_URI="387546586013.dkr.ecr.eu-west-1.amazonaws.com/duration-model"
-REMOTE_TAG="v1"
-REMOTE_IMAGE=${REMOTE_URI}:${REMOTE_TAG}
-
-LOCAL_IMAGE="stream-model-duration:v1"
-docker tag ${LOCAL_IMAGE} ${REMOTE_IMAGE}
-docker push ${REMOTE_IMAGE}
+    credit_default_predictions_stream:v1
 ```
