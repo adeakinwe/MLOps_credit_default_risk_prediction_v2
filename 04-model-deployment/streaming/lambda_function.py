@@ -6,7 +6,7 @@ import pickle
 import xgboost as xgb
 
 # --- CONFIG ---
-s3_client = boto3.client("s3")
+s3_client = boto3.client("s3","eu-west-1")
 S3_BUCKET = "mlflow-credit-default-risk-prediction-artifact-store-v2"
 RUN_ID = os.getenv("RUN_ID")  # Must be set in Lambda env vars
 
@@ -15,7 +15,6 @@ MODEL_KEY = f"{RUN_ID}/artifacts/xgb_credit_pred.bin"
 PREDICTIONS_STREAM_NAME = os.getenv("PREDICTIONS_STREAM_NAME", "ride_predictions")
 TEST_RUN = os.getenv("TEST_RUN", "false").lower() == "true"
 
-s3_client = boto3.client("s3")
 kinesis_client = boto3.client("kinesis")
 
 # --- LOAD MODEL FROM S3 ONCE (outside handler) ---

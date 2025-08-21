@@ -132,11 +132,14 @@ python test_event.py
 ```bash
 docker build -t credit_default_predictions_stream:v1 .
 
+```bash
 docker run -it --rm \
     -p 8080:8080 \
     -e PREDICTIONS_STREAM_NAME="credit_default_predictions" \
     -e RUN_ID="fe69b7b9817240789feb57c59ff31cc5" \
     -e TEST_RUN="True" \
-    -e AWS_DEFAULT_REGION="eu-west-1" \
+    -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+    -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
+    -e AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" \
     credit_default_predictions_stream:v1
 ```
