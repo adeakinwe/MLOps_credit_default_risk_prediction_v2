@@ -129,8 +129,19 @@ python test_event.py
 
 ### Putting everything to Docker
 
+URL for testing:
+
+* http://localhost:8080/2015-03-31/functions/function/invocations
+
 ```bash
 docker build -t credit_default_predictions_stream:v1 .
+```
+
+```bash
+export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id --profile default)
+export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key --profile default)
+export AWS_DEFAULT_REGION=$(aws configure get region --profile default)
+```
 
 ```bash
 docker run -it --rm \
@@ -142,4 +153,78 @@ docker run -it --rm \
     -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
     -e AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" \
     credit_default_predictions_stream:v1
+```
+### Pushing Docker images to ECR
+
+Creating an ECR repo
+
+```bash
+aws ecr create-repository --repository-name credit-default-prediction-model 
+```
+
+Logging in
+
+```bash
+$(aws ecr get-login --no-include-email)
+```
+
+Pushing 
+
+```bash
+REMOTE_URI="928475935048.dkr.ecr.eu-west-1.amazonaws.com/credit-default-prediction-model"
+REMOTE_TAG="v1"
+REMOTE_IMAGE=${REMOTE_URI}:${REMOTE_TAG}
+
+LOCAL_IMAGE="credit_default_predictions_stream:v1"
+docker tag ${LOCAL_IMAGE} ${REMOTE_IMAGE}
+docker push ${REMOTE_IMAGE}
+```
+```
+echo $REMOTE_IMAGE
+``
+
+Test with ECR, lambda, kinesis, configured IAM s3 policy
+```bash
+KINESIS_STREAM_INPUT=credit_default_pred_events 
+```
+
+```bash
+aws kinesis put-record \
+    --stream-name ${KINESIS_STREAM_INPUT} \
+    --partition-key 1 \
+    --data '{
+        "data": {
+      "AGE_GROUP": "Youth",
+      "YEARS_EMPLOYED_GROUP": "1-5 yrs",
+      "PHONE_CHANGE_GROUP": "moderate",
+      "REGION_RATING_CLIENT_W_CITY": 2,
+      "REGION_RATING_CLIENT": 1,
+      "EXT_SOURCE_3": 0.789,
+      "EXT_SOURCE_2": 0.621,
+      "EXT_SOURCE_1": 0.513,
+      "FLOORSMAX_AVG": 0.8
+    },
+    "data_id": 101
+    }'
+```
+
+```bash
+KINESIS_STREAM_OUTPUT='credit_default_predictions'
+SHARD='shardId-000000000000'
+
+SHARD_ITERATOR=$(aws kinesis \
+    get-shard-iterator \
+        --shard-id ${SHARD} \
+        --shard-iterator-type TRIM_HORIZON \
+        --stream-name ${KINESIS_STREAM_OUTPUT} \
+        --query 'ShardIterator' \
+)
+
+RESULT=$(aws kinesis get-records --shard-iterator $SHARD_ITERATOR)
+
+echo ${RESULT}
+``` 
+
+```bash
+echo "eyJtb2RlbCI6ICJjcmVkaXQtZGVmYXVsdC1yaXNrLXByZWRpY3Rpb24iLCAidmVyc2lvbiI6ICJ2MS4wIiwgInByZWRpY3Rpb24iOiB7ImRhdGFfaWQiOiAxMDAxLCAiZGVmYXVsdF9wcm9iYWJpbGl0eSI6IDAuMDY4MzI2NTYyNjQzMDUxMTUsICJkZWZhdWx0X3Jpc2siOiAiTG93In19" | base64 -d | jq
 ```

@@ -149,6 +149,8 @@ python -m pip install -r 04-model-deployment/requirements.txt
 
 gunicorn --bind=0.0.0.0:9696 predict:app
 
+For Streaming, Kindly refer to 04-model-deployment/streaming/README.md
+
 # Docker
 docker build -t credit-default-risk-prediction-service:v1 .
 
