@@ -1,0 +1,14 @@
+FROM public.ecr.aws/lambda/python:3.8
+
+# Upgrade pip
+RUN pip install --upgrade pip
+
+# Copy requirements and install into Lambda task root
+COPY requirements.txt .
+RUN pip install --no-cache-dir --prefer-binary -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
+
+# Copy your function code into the Lambda task root
+COPY lambda_function.py ${LAMBDA_TASK_ROOT}
+
+# Command to run the Lambda handler
+CMD [ "lambda_function.lambda_handler" ]
