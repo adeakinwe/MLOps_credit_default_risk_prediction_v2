@@ -1,3 +1,3 @@
-import lambda_function
+# import model
 
-lambda_function.prepare_features()
+# model.prep_features(None)
