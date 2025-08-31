@@ -1,5 +1,5 @@
 ```bash
-docker build -t credit_default_predictions_stream:v1 .
+docker build -t credit_default_predictions_stream:v2 .
 ```
 
 ```bash

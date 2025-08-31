@@ -1,11 +1,9 @@
 {
-    "python.testing.unittestArgs": [
-        "-v",
-        "-s",
-        "./06-best-practises",
-        "-p",
-        "*_test.py"
-    ],
-    "python.testing.pytestEnabled": false,
-    "python.testing.unittestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": [
+    "06-best-practises/tests"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.autoTestDiscoverOnSaveEnabled": true,
+  "python.defaultInterpreterPath": "/Users/mac/Projects/MLops_credit_default_risk_prediction/credit-default-risk-pred-venv/bin/python3"
 }

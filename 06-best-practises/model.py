@@ -14,7 +14,7 @@ num_cols = [
     'EXT_SOURCE_3',
     'EXT_SOURCE_2',
     'EXT_SOURCE_1',
-    'FLOORS_MAX_AVG'
+    'FLOORSMAX_AVG'
 ]
 
 # S3 bucket where artifacts are stored
@@ -66,10 +66,22 @@ def load_model(run_id: str):
     return booster, dv
 
 
+def prep_features(data: dict):
+    features = {}
+    for col in cat_cols:
+        features[col] = str(data.get(col, ""))
+    for col in num_cols:
+        val = data.get(col)
+        try:
+            features[col] = float(val) if val is not None else 0.0
+        except (ValueError, TypeError):
+            features[col] = 0.0
+    return features
+    
 def base64_decode(encoded_data: str):
     decoded_data = base64.b64decode(encoded_data).decode("utf-8")
-    ride_event = json.loads(decoded_data)
-    return ride_event
+    json_data = json.loads(decoded_data)
+    return json_data
 
 
 class ModelService:
