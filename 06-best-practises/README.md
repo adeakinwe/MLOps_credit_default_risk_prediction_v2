@@ -27,6 +27,9 @@ docker run -it --rm \
 export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id --profile default)
 export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key --profile default)
 export AWS_DEFAULT_REGION=$(aws configure get region --profile default)
+export PREDICTIONS_STREAM_NAME=credit_default_predictions
+export RUN_ID=fe69b7b9817240789feb57c59ff31cc5
+export LOCAL=false
 ```
 
 ```bash

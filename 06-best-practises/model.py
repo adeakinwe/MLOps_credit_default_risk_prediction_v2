@@ -28,15 +28,21 @@ print("RUN_ID:", RUN_ID)
 
 
 def get_model_location(run_id: str) -> str:
-    """
-    Returns the S3 key for the saved XGBoost model artifact.
-    """
-    model_location = os.getenv("MODEL_LOCATION")
-    if model_location:
-        return model_location
-
-    # Our artifact path convention
-    return f"{run_id}/artifacts/xgb_credit_pred.bin"
+    is_local = os.getenv("LOCAL", "false").lower() == "true"
+    if is_local:
+        """
+        Returns the S3 key for the saved XGBoost model artifact.
+        """
+        print(">>>LOCAL PATH")
+        model_location = os.getenv("MODEL_LOCATION")
+        if model_location:
+            return model_location
+    else:
+        """
+        Returns the S3 key for the saved XGBoost model artifact.
+        """
+        print(">>>Fetching from S3 Bucket")
+        return f"{run_id}/artifacts/xgb_credit_pred.bin"
 
 
 # def load_model(run_id: str):
