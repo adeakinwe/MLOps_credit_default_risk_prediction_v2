@@ -1,5 +1,5 @@
 import requests
-#import lambda_function
+import json
 
 event = {
     "Records": [
@@ -24,5 +24,17 @@ event = {
 
 url = "http://localhost:8080/2015-03-31/functions/function/invocations"
 response = requests.post(url, json=event)
-#result = lambda_function.lambda_handler(event, None)
-print(response.json())
+actual_response = response.json()
+print(json.dumps(actual_response, indent=2))
+
+expected_response = {
+    'predictions': [
+        {'statusCode': 200, 
+         'data_id': 101, 
+         'default_probability': 0.07159064710140228, 
+         'default_risk': 'Low'
+         }
+    ]
+}
+
+assert actual_response == expected_response

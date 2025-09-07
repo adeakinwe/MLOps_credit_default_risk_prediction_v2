@@ -39,25 +39,71 @@ def get_model_location(run_id: str) -> str:
     return f"{run_id}/artifacts/xgb_credit_pred.bin"
 
 
-def load_model(run_id: str):
-    """
-    Loads XGBoost Booster + DictVectorizer from S3.
-    """
-    model_key = get_model_location(run_id)
-    print(f"Downloading model from s3://{S3_BUCKET}/{model_key}")
+# def load_model(run_id: str):
+#     """
+#     Loads XGBoost Booster + DictVectorizer from S3.
+#     """
+#     model_key = get_model_location(run_id)
+#     print(f"Downloading model from s3://{S3_BUCKET}/{model_key}")
 
-    # Ensure region fallback works if env var is unset or empty
-    region = os.getenv("AWS_DEFAULT_REGION") or "eu-west-1"
+#     # Ensure region fallback works if env var is unset or empty
+#     region = os.getenv("AWS_DEFAULT_REGION") or "eu-west-1"
 
-    # boto3 will use env vars or IAM role automatically
-    s3_client = boto3.client(
-        "s3",
-        region_name=region,
-        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
-        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
-    )
-    response = s3_client.get_object(Bucket=S3_BUCKET, Key=model_key)
-    model_bundle = pickle.load(response["Body"])
+#     # boto3 will use env vars or IAM role automatically
+#     s3_client = boto3.client(
+#         "s3",
+#         region_name=region,
+#         aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+#         aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+#     )
+#     response = s3_client.get_object(Bucket=S3_BUCKET, Key=model_key)
+#     model_bundle = pickle.load(response["Body"])
+
+#     booster: xgb.Booster = model_bundle["model"]
+#     dv: DictVectorizer = model_bundle["vectorizer"]
+
+#     print("✅ Model and vectorizer loaded successfully")
+#     return booster, dv
+
+def load_model(run_id: str = None, local: bool = False):
+    """
+    Loads XGBoost Booster + DictVectorizer.
+    If `local=True`, loads from integration_test/model/.
+    Otherwise, downloads from S3 using run_id.
+    """
+    if local:
+        print("🔧 Running in LOCAL mode")
+        # Local path for integration test
+        #model_path = os.path.join("integration_test", "model", "xgb_credit_pred.bin")
+        # Local mode (Docker / integration tests)
+        #model_dir = os.getenv("MODEL_LOCATION", "/app/model")
+        model_dir = os.getenv("MODEL_LOCATION", "integration_test/model")
+        model_filename = os.getenv("MODEL_FILENAME", "xgb_credit_pred.bin")
+        model_path = os.path.join(model_dir, model_filename)
+
+        print(f"📂 Looking for model file at: {os.path.abspath(model_path)}")
+        model_path = os.path.join("integration_test", "model", "xgb_credit_pred.bin")
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(f"❌ Model file not found at {os.path.abspath(model_path)}")
+        #assert os.path.exists(model_path), f"Model file missing at {model_path}"
+        with open(model_path, "rb") as f:
+            model_bundle = pickle.load(f)
+    else:
+        print("☁️ Running in S3/production mode")
+        # Load from S3
+        model_key = get_model_location(run_id)
+        print(f"📥 Downloading model from s3://{S3_BUCKET}/{model_key}")
+
+        region = os.getenv("AWS_DEFAULT_REGION") or "eu-west-1"
+        s3_client = boto3.client(
+            "s3",
+            region_name=region,
+            aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+            aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+        )
+
+        response = s3_client.get_object(Bucket=S3_BUCKET, Key=model_key)
+        model_bundle = pickle.load(response["Body"])
 
     booster: xgb.Booster = model_bundle["model"]
     dv: DictVectorizer = model_bundle["vectorizer"]
@@ -137,7 +183,8 @@ class ModelService:
 
 
 def init(prediction_stream_name: str, run_id: str, test_run: bool):
-    booster, dv = load_model(run_id)
+    is_local = os.getenv("LOCAL", "false").lower() == "true"
+    booster, dv = load_model(run_id, is_local)
     callbacks = []
     model_service = ModelService(booster=booster, dv=dv, model_version=run_id, callbacks=callbacks)
     return model_service
