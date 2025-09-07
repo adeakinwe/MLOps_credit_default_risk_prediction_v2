@@ -19,3 +19,7 @@ docker run -it --rm \
     -e AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" \
     credit_default_predictions_stream:v2
 ```
+
+```bash
+aws s3 cp --recursive s3://mlflow-credit-default-risk-prediction-artifact-store-v2/fe69b7b9817240789feb57c59ff31cc5/artifacts/ model
+```
