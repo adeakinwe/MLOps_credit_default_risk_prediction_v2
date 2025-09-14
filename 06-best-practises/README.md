@@ -43,3 +43,13 @@ docker run -it --rm \
     -e AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" \
     credit_default_predictions_stream:v2
 ```
+
+```bash
+pip install pre-commit
+
+git init
+
+pre-commit sample-config > .pre-commit-config.yaml
+
+pre-commit install
+```

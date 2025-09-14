@@ -29,9 +29,9 @@ print(json.dumps(actual_response, indent=2))
 
 expected_response = {
     'predictions': [
-        {'statusCode': 200, 
-         'data_id': 101, 
-         'default_probability': 0.07159064710140228, 
+        {'statusCode': 200,
+         'data_id': 101,
+         'default_probability': 0.07159064710140228,
          'default_risk': 'Low'
          }
     ]

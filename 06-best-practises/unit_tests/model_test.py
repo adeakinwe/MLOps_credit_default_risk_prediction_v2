@@ -12,7 +12,7 @@ def test_prepare_features():
       "EXT_SOURCE_1": 0.513,
       "FLOORSMAX_AVG": 0.8
     }
-    
+
     actual_features = model.prep_features(features)
     expected_features = {
       "AGE_GROUP": "Youth",
@@ -48,6 +48,6 @@ def test_base64_decode():
     "data_id": 101
   }
     assert expected_data == decoded_data
-    
+
 def test_setup():
     assert 3 > 2

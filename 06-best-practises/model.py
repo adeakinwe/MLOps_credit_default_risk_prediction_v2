@@ -98,7 +98,7 @@ def prep_features(data: dict):
         except (ValueError, TypeError):
             features[col] = 0.0
     return features
-    
+
 def base64_decode(encoded_data: str):
     decoded_data = base64.b64decode(encoded_data).decode("utf-8")
     json_data = json.loads(decoded_data)
