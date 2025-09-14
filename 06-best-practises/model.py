@@ -1,20 +1,21 @@
-import os
-import json
 import base64
-import boto3
+import json
+import os
 import pickle
+
+import boto3
 import xgboost as xgb
 from sklearn.feature_extraction import DictVectorizer
 
 # Define columns
-cat_cols = ['AGE_GROUP', 'YEARS_EMPLOYED_GROUP', 'PHONE_CHANGE_GROUP']
+cat_cols = ["AGE_GROUP", "YEARS_EMPLOYED_GROUP", "PHONE_CHANGE_GROUP"]
 num_cols = [
-    'REGION_RATING_CLIENT_W_CITY',
-    'REGION_RATING_CLIENT',
-    'EXT_SOURCE_3',
-    'EXT_SOURCE_2',
-    'EXT_SOURCE_1',
-    'FLOORSMAX_AVG'
+    "REGION_RATING_CLIENT_W_CITY",
+    "REGION_RATING_CLIENT",
+    "EXT_SOURCE_3",
+    "EXT_SOURCE_2",
+    "EXT_SOURCE_1",
+    "FLOORSMAX_AVG",
 ]
 
 # S3 bucket where artifacts are stored
@@ -44,6 +45,7 @@ def get_model_location(run_id: str) -> str:
         print(">>>Fetching from S3 Bucket")
         return f"{run_id}/artifacts/xgb_credit_pred.bin"
 
+
 def load_model(run_id: str = None, local: bool = False):
     """
     Loads XGBoost Booster + DictVectorizer.
@@ -60,7 +62,9 @@ def load_model(run_id: str = None, local: bool = False):
         print(f"📂 Looking for model file at: {os.path.abspath(model_path)}")
         model_path = os.path.join("integration_test", "model", "xgb_credit_pred.bin")
         if not os.path.exists(model_path):
-            raise FileNotFoundError(f"❌ Model file not found at {os.path.abspath(model_path)}")
+            raise FileNotFoundError(
+                f"❌ Model file not found at {os.path.abspath(model_path)}"
+            )
         with open(model_path, "rb") as f:
             model_bundle = pickle.load(f)
     else:
@@ -98,6 +102,7 @@ def prep_features(data: dict):
         except (ValueError, TypeError):
             features[col] = 0.0
     return features
+
 
 def base64_decode(encoded_data: str):
     decoded_data = base64.b64decode(encoded_data).decode("utf-8")
@@ -161,5 +166,7 @@ def init(prediction_stream_name: str, run_id: str, test_run: bool):
     is_local = os.getenv("LOCAL", "false").lower() == "true"
     booster, dv = load_model(run_id, is_local)
     callbacks = []
-    model_service = ModelService(booster=booster, dv=dv, model_version=run_id, callbacks=callbacks)
+    model_service = ModelService(
+        booster=booster, dv=dv, model_version=run_id, callbacks=callbacks
+    )
     return model_service

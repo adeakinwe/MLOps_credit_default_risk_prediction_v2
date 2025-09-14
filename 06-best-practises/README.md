@@ -45,11 +45,19 @@ docker run -it --rm \
 ```
 
 ```bash
-pip install pre-commit
+pip install -r requirements-test.txt
+```
 
+```bash
 git init
 
 pre-commit sample-config > .pre-commit-config.yaml
 
 pre-commit install
+```
+
+```bash
+chmod +x integration_test/run-make.sh
+
+integration_test/run-make.sh
 ```

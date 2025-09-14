@@ -28,7 +28,7 @@ repos:
             "-rn", # Only display messages
             "-sn", # Don't display the score
             "--recursive=y",
-            "--disable=C0301" # disable line-too-long
+            "--disable=C0114,C0115,C0116,C0301,R0801,W0613,W0621,W0105,C0103,W3101,R1710,W0012," # disable module, class, function docstring, disable line-too-long
         ]
 -   repo: local
     hooks:
