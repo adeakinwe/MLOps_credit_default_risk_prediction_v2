@@ -61,3 +61,14 @@ chmod +x integration_test/run-make.sh
 
 integration_test/run-make.sh
 ```
+
+``` INFRASTRUCTURE AS CODE ```
+<!-- credit-default-pred-event-stg -->
+
+```bash
+terraform init
+
+terraform plan
+
+terraform apply
+```

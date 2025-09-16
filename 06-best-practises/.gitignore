@@ -1,1 +1,5 @@
 __pycache__
+moduless
+.pytest_cache/
+.terraform/
+.terraform.lock.hcl
