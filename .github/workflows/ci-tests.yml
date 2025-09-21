@@ -1,9 +1,10 @@
 name: CI-Tests
-
 on:
   pull_request:
     branches:
-      - dev   # run on all PRs to dev
+      - 'dev'
+    paths:
+      - '06-best-practises/**'
 
 env:
   AWS_DEFAULT_REGION: eu-west-1
