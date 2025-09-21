@@ -19,7 +19,7 @@ locals {
   account_id = data.aws_caller_identity.current_identity.account_id
 }
 
-# credit_default_risk_prediction_events
+# kinesis source stream #src-stream-tf
 module "source_kinesis_stream" {
   source = "./modules/kinesis"
   retention_period = 48
@@ -28,7 +28,7 @@ module "source_kinesis_stream" {
   tags = var.project_id
 }
 
-# credit_default_risk_prediction
+# kinesis output stream # out-stream-tf
 module "output_kinesis_stream" {
   source = "./modules/kinesis"
   retention_period = 48
@@ -36,19 +36,31 @@ module "output_kinesis_stream" {
   stream_name = "${var.output_stream_name}-${var.project_id}"
   tags = var.project_id
 }
+
+# s3 bucket #s3-tf
 module "s3_bucket" {
   source = "./modules/s3"
   bucket_name = "${var.model_bucket}-${var.project_id}"
 }
 
-# # image registry
-# module "ecr_image" {
-#    source = "./modules/ecr"
-#    ecr_repo_name = "${var.ecr_repo_name}_${var.project_id}"
-#    account_id = local.account_id
-#    lambda_function_local_path = var.lambda_function_local_path
-#    docker_image_local_path = var.docker_image_local_path
-# }
+# ecr image registry 
+module "ecr_image" {
+   source = "./modules/ecr"
+   ecr_repo_name = "credit-default-prediction-model"
+   ecr_image_tag = "v1" 
+   account_id = local.account_id
+}
+
+/*//////// UNCOMMENT FOR A FRESH DOCKER BUILD AND PUSH TO ECR ////////
+# ecr image registry #ecr-tf
+module "ecr_image" {
+   source = "./modules/ecr"
+   ecr_repo_name = "${var.ecr_repo_name}-${var.project_id}"
+   lambda_function_local_path = var.lambda_function_local_path
+   docker_image_local_path = var.docker_image_local_path
+   account_id = local.account_id
+}
+*/////////////////////////////////////////////////////////////////
 
 # module "lambda_function" {
 #   source = "./modules/lambda"
