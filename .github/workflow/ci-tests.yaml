@@ -5,7 +5,7 @@ on:
     branches:
       - 'dev'
     paths:
-      - '06-best-practices/**'
+      - '06-best-practises/**'
 
 env:
   AWS_DEFAULT_REGION: 'eu-west-1'
@@ -23,15 +23,15 @@ jobs:
           python-version: 3.8
 
       - name: Install dependencies
-        working-directory: "06-best-practices"
+        working-directory: "06-best-practises"
         run: pip install pipenv && pipenv install --dev
 
       - name: Run Unit tests
-        working-directory: "06-best-practices"
+        working-directory: "06-best-practises"
         run: pipenv run pytest unit_tests/
 
       - name: Lint
-        working-directory: "06-best-practices"
+        working-directory: "06-best-practises"
         run: pipenv run pylint --recursive=y .
 
       - name: Configure AWS Credentials
@@ -42,7 +42,7 @@ jobs:
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
 
       - name: Integration Test
-        working-directory: '06-best-practices/integration_test'
+        working-directory: '06-best-practises/integration_test'
         run: |
           . run-make.sh
 
@@ -61,6 +61,6 @@ jobs:
 
       - name: TF plan
         id: plan
-        working-directory: '06-best-practices/infrastructure'
+        working-directory: '06-best-practises/infrastructure'
         run: |
           terraform init -backend-config="key=credit-default-risk-prediction-stg.tfstate" --reconfigure && terraform plan --var-file vars/prod.tfvars

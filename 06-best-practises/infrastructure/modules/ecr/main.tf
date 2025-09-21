@@ -1,19 +1,20 @@
 # Reference an existing repo (must already exist in ECR)
 # Use data instead of resource since repo won't be created afresh
-data "aws_ecr_repository" "repo" {
-  name = var.ecr_repo_name
-}
 
-data "aws_ecr_image" "lambda_image" {
-  repository_name = var.ecr_repo_name
-  image_tag       = var.ecr_image_tag
-}
+////////
+# data "aws_ecr_repository" "repo" {
+#   name = var.ecr_repo_name
+# }
 
-output "image_uri" {
-  value = "${data.aws_ecr_repository.repo.repository_url}:${data.aws_ecr_image.lambda_image.image_tag}"
-}
+# data "aws_ecr_image" "lambda_image" {
+#   repository_name = var.ecr_repo_name
+#   image_tag       = var.ecr_image_tag
+# }
 
-/*//////// UNCOMMENT FOR A FRESH DOCKER BUILD AND PUSH TO ECR ////////
+# output "image_uri" {
+#   value = "${data.aws_ecr_repository.repo.repository_url}:${data.aws_ecr_image.lambda_image.image_tag}"
+# }
+///////
 
 resource "aws_ecr_repository" "repo" {
   name                 = var.ecr_repo_name
@@ -57,4 +58,3 @@ data aws_ecr_image lambda_image {
 output "image_uri" {
   value     = "${aws_ecr_repository.repo.repository_url}:${data.aws_ecr_image.lambda_image.image_tag}"
 }
-*/////////////////////////////////////////
