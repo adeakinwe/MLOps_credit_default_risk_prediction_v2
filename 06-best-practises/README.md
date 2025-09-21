@@ -62,9 +62,9 @@ chmod +x integration_test/run-make.sh
 integration_test/run-make.sh
 ```
 
-``` INFRASTRUCTURE AS CODE ```
+``` INFRASTRUCTURE AS CODE - TERRAFORM```
 <!-- credit-default-pred-event-stg -->
-
+<!-- s3-tf out-stream-tf src-stream-tf S3 OUTPUT KINESIS STREAM SOURCE KINESIS STREAM-->
 ```bash
 terraform init
 

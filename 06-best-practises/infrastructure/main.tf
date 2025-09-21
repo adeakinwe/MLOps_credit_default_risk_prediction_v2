@@ -28,20 +28,18 @@ module "source_kinesis_stream" {
   tags = var.project_id
 }
 
-# # credit_default_risk_prediction
-# module "output_kinesis_stream" {
-#   source = "./modules/kinesis"
-#   retention_period = 48
-#   shard_count = 2
-#   stream_name = "${var.output_stream_name}-${var.project_id}"
-#   tags = var.project_id
-# }
-
-# # model bucket
-# module "s3_bucket" {
-#   source = "./modules/s3"
-#   bucket_name = "${var.model_bucket}-${var.project_id}"
-# }
+# credit_default_risk_prediction
+module "output_kinesis_stream" {
+  source = "./modules/kinesis"
+  retention_period = 48
+  shard_count = 2
+  stream_name = "${var.output_stream_name}-${var.project_id}"
+  tags = var.project_id
+}
+module "s3_bucket" {
+  source = "./modules/s3"
+  bucket_name = "${var.model_bucket}-${var.project_id}"
+}
 
 # # image registry
 # module "ecr_image" {
