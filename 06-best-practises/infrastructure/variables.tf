@@ -38,6 +38,6 @@ variable "ecr_image_tag" {
   description = "Image tag to use"
 }
 
-# variable "lambda_function_name" {
-#   description = ""
-# }
+variable "lambda_function_name" {
+  description = ""
+}
