@@ -1,0 +1,6 @@
+source_stream_name = "src-stream-tf-prod"
+output_stream_name = "out-stream-tf-prod"
+model_bucket = "s3-tf-prod"
+ecr_repo_name = "prod-credit-default-prediction-model"
+ecr_image_tag = "v1"
+lambda_function_name = "lambda-tf-prod"
