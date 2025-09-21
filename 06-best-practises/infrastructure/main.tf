@@ -43,11 +43,11 @@ module "s3_bucket" {
   bucket_name = "${var.model_bucket}-${var.project_id}"
 }
 
-# ecr image registry 
+# ecr image registry
 module "ecr_image" {
    source = "./modules/ecr"
    ecr_repo_name = "credit-default-prediction-model"
-   ecr_image_tag = "v1" 
+   ecr_image_tag = "v1"
    account_id = local.account_id
 }
 
