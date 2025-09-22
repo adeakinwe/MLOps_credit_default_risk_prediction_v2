@@ -1,4 +1,8 @@
 boto3
 xgboost
 scikit-learn
+pytest
 pylint
+isort
+black
+pre-commit
