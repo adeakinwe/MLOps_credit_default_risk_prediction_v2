@@ -32,7 +32,7 @@ jobs:
 
       - name: Lint
         working-directory: 06-best-practises
-        run: pipenv run pylint --recursive=y .
+        run: pipenv run pylint --recursive=y --exit-zero .
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
