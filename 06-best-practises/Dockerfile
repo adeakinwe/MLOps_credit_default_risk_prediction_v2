@@ -15,8 +15,7 @@ COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 COPY model.py ${LAMBDA_TASK_ROOT}
 
 # Copy test model folder (so LOCAL=true works even without a volume mount)
-#COPY integration_test/model ${LAMBDA_TASK_ROOT}/integration_test/model
-COPY model ${LAMBDA_TASK_ROOT}/integration_test/model
+COPY integration_test/model ${LAMBDA_TASK_ROOT}/integration_test/model
 
 # Default ENV values — can be overridden at runtime
 ENV MODEL_LOCATION=${LAMBDA_TASK_ROOT}/integration_test/model
