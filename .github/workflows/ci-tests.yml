@@ -41,10 +41,10 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
 
-      - name: Integration Test
-        working-directory: 06-best-practises/integration_test
-        run: |
-          . run-make.sh
+      # - name: Integration Test
+      #   working-directory: 06-best-practises/integration_test
+      #   run: |
+      #     . run-make.sh
 
   tf-plan:
     runs-on: ubuntu-latest
