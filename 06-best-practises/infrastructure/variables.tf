@@ -20,7 +20,6 @@ variable "model_bucket" {
   description = "s3_bucket"
 }
 
-/*//////// UNCOMMENT FOR A FRESH DOCKER BUILD AND PUSH TO ECR ////////
 variable "lambda_function_local_path" {
   description = ""
 }
@@ -28,7 +27,6 @@ variable "lambda_function_local_path" {
 variable "docker_image_local_path" {
   description = ""
 }
-*//////////////////////////////////////////////////////////////////
 
 variable "ecr_repo_name" {
   description = ""

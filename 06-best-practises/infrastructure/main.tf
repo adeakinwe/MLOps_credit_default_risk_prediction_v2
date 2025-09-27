@@ -44,14 +44,13 @@ module "s3_bucket" {
 }
 
 # ecr image registry
-module "ecr_image" {
-   source = "./modules/ecr"
-   ecr_repo_name = "credit-default-prediction-model"
-   ecr_image_tag = "v1"
-   account_id = local.account_id
-}
+# module "ecr_image" {
+#    source = "./modules/ecr"
+#    ecr_repo_name = "credit-default-prediction-model"
+#    ecr_image_tag = "v1"
+#    account_id = local.account_id
+# }
 
-/*//////// UNCOMMENT FOR A FRESH DOCKER BUILD AND PUSH TO ECR ////////
 # ecr image registry #ecr-tf
 module "ecr_image" {
    source = "./modules/ecr"
@@ -60,7 +59,6 @@ module "ecr_image" {
    docker_image_local_path = var.docker_image_local_path
    account_id = local.account_id
 }
-*/////////////////////////////////////////////////////////////////
 
 #lambda function #lambda-tf
 module "lambda_function" {
@@ -74,19 +72,19 @@ module "lambda_function" {
   source_stream_arn = module.source_kinesis_stream.stream_arn
 }
 
-# # For CI/CD
-# output "lambda_function" {
-#   value     = "${var.lambda_function_name}-${var.project_id}"
-# }
+# For CI/CD
+output "lambda_function" {
+  value     = "${var.lambda_function_name}-${var.project_id}"
+}
 
-# output "model_bucket" {
-#   value = module.s3_bucket.name
-# }
+output "model_bucket" {
+  value = module.s3_bucket.name
+}
 
-# output "predictions_stream_name" {
-#   value     = "${var.output_stream_name}-${var.project_id}"
-# }
+output "predictions_stream_name" {
+  value     = "${var.output_stream_name}-${var.project_id}"
+}
 
-# output "ecr_repo" {
-#   value = "${var.ecr_repo_name}-${var.project_id}"
-# }
+output "ecr_repo" {
+  value = "${var.ecr_repo_name}-${var.project_id}"
+}
