@@ -14,8 +14,9 @@ RUN mkdir -p /root/.aws
 COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 COPY model.py ${LAMBDA_TASK_ROOT}
 
-# Copy test model folder (so LOCAL=true works even without a volume mount)
-COPY integration_test/model ${LAMBDA_TASK_ROOT}/integration_test/model
+# Optional: Copy test model folder only if requested
+ARG INCLUDE_TESTS=false
+RUN if [ "$INCLUDE_TESTS" = "true" ]; then mkdir -p ${LAMBDA_TASK_ROOT}/integration_test && cp -r integration_test/model ${LAMBDA_TASK_ROOT}/integration_test/model; fi
 
 # Default ENV values — can be overridden at runtime
 ENV MODEL_LOCATION=${LAMBDA_TASK_ROOT}/integration_test/model
