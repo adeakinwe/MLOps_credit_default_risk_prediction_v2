@@ -109,7 +109,7 @@ cd ~/Projects/MLops_credit_default_risk_prediction/
 
 4. source ~/.zshrc
 
-# Create a new virtual environment using Python 3.8
+# Create a new virtual (venv) environment using Python 3.8
 python -m credit-default-risk-pred-venv
 
 source credit-default-risk-pred-venv/bin/activate
@@ -123,6 +123,17 @@ python -m ipykernel install --user --name=credit-default-risk-pred-venv --displa
 python -m pip install -r requirements.txt
 
 ./credit-default-risk-pred-venv/bin/pip list
+
+# Alternative => Conda environment
+conda create -n xgb214 python=3.9 -y
+conda activate xgb214
+
+conda install -c conda-forge xgboost=2.1.4 numpy scipy pandas -y
+python -c "import xgboost; print(xgboost.__version__)"
+
+conda install --file requirements.txt
+
+conda env export --no-builds > environment.yml
 
 # Backend DB
 
