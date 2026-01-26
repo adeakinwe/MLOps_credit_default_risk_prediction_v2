@@ -9,7 +9,7 @@ data = {
     "EXT_SOURCE_3": 0.789,
     "EXT_SOURCE_2": 0.621,
     "EXT_SOURCE_1": 0.513,
-    "FLOORSMAX_AVG": 0.8
+    "FLOORS_MAX_AVG": 1.0
 }
 
 url = 'http://localhost:9696/predict'
