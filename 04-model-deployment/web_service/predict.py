@@ -1,6 +1,7 @@
 import pandas as pd
 import mlflow
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 RUN_ID = 'fe69b7b9817240789feb57c59ff31cc5'
 
@@ -36,6 +37,7 @@ def prepare_features(data):
     return pd.DataFrame(features)
 
 app = Flask("credit-default-risk-prediction-service")
+CORS(app)
 
 @app.route("/predict", methods=["POST"])
 def predict_endpoint():
@@ -45,7 +47,8 @@ def predict_endpoint():
 
     result = {
         "default_probability": float(prediction),
-        "default_risk": "High" if prediction >= 0.5 else "Low"
+        "default_risk": "High" if prediction >= 0.5 else "Low",
+        "riskLevel": 3 if prediction >= 0.5 else 1
     }
     return jsonify(result)
 
